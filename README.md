@@ -1,11 +1,8 @@
-README
-======
-
 flask-boilerplate
+=================
 
-
-Setup Codebase
---------------
+Setup
+-----
 
 * Clone the repository:
 
@@ -13,8 +10,8 @@ Setup Codebase
 git clone git@github.com:wilspi/flask-boilerplate.git
 ```
 
-* Install Dependencies in virtual environment 
-Read more [here]()
+* Install Dependencies in virtual environment    
+Read more [here](docs.python-guide.org/en/latest/dev/virtualenvs/)
 
 ```sh
 virtualenv venv
@@ -28,7 +25,7 @@ Edit configurations in ```myapp/config.py```
 
 
 * Change app name
-Rename myapp to <your_app_name>
+Rename myapp to ```<your_app_name>```
 and run
 ```sh
 find . -type f -name '*.py' -exec sed -i '' s/myapp/<your_app_name>/ {} +
