@@ -1,8 +1,18 @@
+
+# Imports
+##########
+
 from myapp.models import db
 import os
 import logging
 
+###############################################################################
 
+
+# Configs
+##########
+
+# Base
 class BaseConfig(object):
     DEBUG = False
     TESTING = False
@@ -15,14 +25,14 @@ class BaseConfig(object):
     SECURITY_CONFIRMABLE = False
     SUPPORTED_LANGUAGES = {'en': 'English'}
 
-
+# Development
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///myapp.sqlite3'
     SECRET_KEY = '456'
 
-
+# Testing
 class TestingConfig(BaseConfig):
     DEBUG = False
     TESTING = True
@@ -35,12 +45,16 @@ config = {
     "default": "myapp.config.DevelopmentConfig"
 }
 
+###############################################################################
 
+
+# Set configiuration
+#####################
 def configure_app(app):
     # Configure above configuraton
     config_name = os.getenv('FLASK_CONFIGURATION', 'default')
     app.config.from_object(config[config_name])
-    app.config.from_pyfile('config.cfg', silent=True) # if it exists
+    app.config.from_pyfile('config.cfg', silent=True) # if it exists (for production)
     
     # Configure logging
     handler = logging.FileHandler(app.config['LOGGING_LOCATION'])
@@ -48,3 +62,5 @@ def configure_app(app):
     formatter = logging.Formatter(app.config['LOGGING_FORMAT'])
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
+
+###############################################################################

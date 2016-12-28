@@ -1,9 +1,19 @@
+
+# Imports
+##########
+
 from flask import abort, Flask, request
 
 from myapp.utils import get_instance_folder_path
 from myapp.api_routes import *
 from myapp.config import configure_app
 from myapp.models import db
+
+###############################################################################
+
+
+# Initialise
+#############
 
 app = Flask(
     __name__,
@@ -12,6 +22,12 @@ app = Flask(
 
 configure_app(app) # load configurations
 db.init_app(app) # init app to db
+
+###############################################################################
+
+
+# Error Handling
+#################
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -28,10 +44,21 @@ def unhandled_exception(error):
     app.logger.error('Unhandled Exception: %s', (error))
     return "500"
 
+###############################################################################
+
+
+# Pre/Post Request Processing
+##############################
+
 @app.before_first_request
 def initialize_database():
     db.create_all()
 
+###############################################################################
+
+
+# Routings
+###########
 
 @app.route('/')
 @app.route('/<lang_code>/')
@@ -42,3 +69,5 @@ def home(lang_code=None):
 
 # register all routes
 app.register_blueprint(api_routes, url_prefix='/api/v1')
+
+###############################################################################
